@@ -1,0 +1,4 @@
+http://www.tuicool.com/articles/UbIzuau
+
+
+ position: relative;height: 0;padding-bottom: 100%; /* 关键就在这里 */

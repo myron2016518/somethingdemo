@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Demo</title>
+
+</head>
+<body>
+
+
+<input type="file" id="file">
+
+<img src="" />
+<script>
+    var image = document.querySelector("img");
+    //方法一：
+    /*document.querySelector("#file").addEventListener("change", function() {
+        image.src = URL.createObjectURL(this.files[0]);
+    });*/
+
+    //方法二：
+    document.querySelector("#file")
+            .addEventListener('change',function()
+            {
+                var reader = new FileReader();
+                reader.onload = function()
+                {
+                    image.src = this.result;
+                }
+                reader.readAsDataURL( this.files[0]);
+
+            })
+</script>
+
+
+</body>
+</html>

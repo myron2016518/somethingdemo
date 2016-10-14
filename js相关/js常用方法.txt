@@ -1,0 +1,128 @@
+==========================================
+JS获取URL的参数
+function request(paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return "";
+            } else {
+                return returnValue;
+            }
+        }
+
+调用：request('id')
+
+
+
+
+function getUrlParameter(name){
+        var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null) return unescape(r[2]); return null;
+    }//正则表达式取得url中的参数
+    var pro_id = getUrlParameter("id");//获取url中id
+
+
+============================================
+搞一个二维数组 goodslist 然后直接用 JSON.stringify 转成字符串
+
+
+
+
+
+js
+在父窗口中获取iframe中的元素
+1.
+Js代码  收藏代码
+	$(window.parent.frames[ifid].document).find("#getUpdata3")
+格式：window.parent.frames["iframe的name值"].document.getElementById("iframe中控件的ID").click();  
+实例：window.frames["ifm"].document.getElementById("btnOk").click();  
+ 2.
+Java代码  收藏代码
+格式：  
+var obj=document.getElementById("iframe的name").contentWindow;  
+var ifmObj=obj.document.getElementById("iframe中控件的ID");  
+ifmObj.click();  
+实例：  
+var obj=document.getElementById("ifm").contentWindow;  
+var ifmObj=obj.document.getElementById("btnOk");  
+ifmObj.click();  
+ 在iframe中获取父窗口的元素
+Js代码  收藏代码
+格式：window.parent.document.getElementById("父窗口的元素ID").click();  
+实例：window.parent.document.getElementById("btnOk").click();  
+ 
+jquery
+在父窗口中获取iframe中的元素
+1.
+Js代码  收藏代码
+格式：$("#iframe的ID").contents().find("#iframe中的控件ID").click();//jquery 方法1  
+实例：$("#ifm").contents().find("#btnOk").click();//jquery 方法1  
+2.
+Js代码  收藏代码
+格式：$("#iframe中的控件ID",document.frames("frame的name").document).click();//jquery 方法2  
+实例：$("#btnOk",document.frames("ifm").document).click();//jquery 方法2  
+ 在iframe中获取父窗口的元素
+Js代码  收藏代码
+格式：$('#父窗口中的元素ID', parent.document).click();  
+实例：$('#btnOk', parent.document).click();  
+
+
+1）在iframe中查找父页面元素的方法：
+$('#id', window.parent.document)
+2）在iframe中调用父页面中定义的方法和变量：
+parent.method
+parent.value
+
+window.parent[1].
+
+
+
+
+
+
+
+
+==============================================================================================
+
+//iframe 全部同级时互相获取
+function getUpdata() {
+	
+	var getUpdataTxt=$("#getUpdata1").val();
+
+	var ifid=$.frontEngineDialog.getUrlParameter("ifid");
+	//console.log(ifid);
+
+	//$("#"+ifid).contents().find("#getUpdata3").val(getUpdataTxt);
+
+	//$(parent.document.getElementById('getUpdata3')).val(getUpdataTxt);
+	var $pd=$(window.parent.frames[ifid].document).find("#getUpdata3");
+	//$("#getUpdata3",$pd.contentWindow.document).val(getUpdataTxt);
+	var $close=$(parent.document.getElementById('title:add3')).prev();
+	//$close.click();
+	$($pd).val(getUpdataTxt);
+	console.log(getUpdataTxt);
+}
+
+//iframe 内嵌
+function getUpdata2() {
+
+	var getUpdataTxt=$("#getUpdata").val();
+	console.log(parent.document.getElementById('getUpdata'));
+
+	var $close=$(parent.document.getElementById('title:add')).prev();
+	//$close.click();
+
+}
+
+
+
+==============================================================================================
+//document 自定义属性
+document.body.dataset.a="a";	//$("body").data("a","a");$("body").data("a");
+

@@ -1,0 +1,47 @@
+javascript setAttribute, getAttribute 在不同浏览器上的不同表现
+
+测试环境（客户端浏览器 ） 
+IE6，IE7， IE8兼容模式， IE8 
+Firefox 3.6.8, google chrome 5.0.375.125 
+
+先来说明两个函数的标准定义。 
+elementNode.setAttribute(name,value) 
+name 必需。规定要设置的属性名。 
+value 必需。规定要设置的属性值。 
+该方法把指定的属性设置为指定的值。如果不存在具有指定名称的属性，该方法将创建一个新属性。 
+
+elementNode.getAttribute(name) 
+name 必需。规定从中取得属性值的属性。 
+
+一、setAttribute的问题 
+elementNode为<tr>...</tr> 
+
+希望对其增加一个单击行的事件处理函数， 
+写法1： 
+table1row1.setAttribute("onclick", "selectrow1(this)"); 
+IE8, Firefox, google chrome 能正确触发click 事件 
+IE6，IE7则不能触发click 事件。 
+写法2： 
+table2row1.onclick = function() { selectrow2(this) }; 
+所有测试浏览器均能触发click 事件 
+
+故为了兼容在不同的IE中，我们可以统一使用如下语句。 
+table2row1.onclick = function() { selectrow2(this) }; 
+
+
+二、getAttribute的问题 
+elementNode为 <tr>...</tr> 
+先用setAttribute设置属性 
+table1row1.setAttribute("level", 1); 
+再用getAttribute来获取标签的属性值 
+var level = table1row1.getAttribute("level"); 
+alert("table1row1 level:" + level + "\r\ntypeof(level) = " + (typeof (level)).toString()); 
+
+var level = table1row1.getAttribute("level"); 
+if (level === undefined || level == null) { 
+level = "0"; 
+} 
+level = level.toString(); 
+if (level.trim() == "") { 
+level = "0"; 
+} 

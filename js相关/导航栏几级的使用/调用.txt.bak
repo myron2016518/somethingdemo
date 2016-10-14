@@ -1,0 +1,1 @@
+var ulHtml = "<ul id=" + ulId + "  class='menu-submenu menu-submenu-vertical' ></ul>";

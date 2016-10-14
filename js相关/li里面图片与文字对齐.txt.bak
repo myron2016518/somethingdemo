@@ -1,0 +1,12 @@
+
+
+vertical-align:middle;
+
+
+
+例子:
+<li id="01" class="sys-nav-root-menu-li active">
+<img src="http://localhost:8008/takecare/pages/mainboard/img/phone-square_757575_68.png">呼叫中心
+</li>
+
+把vertical-align:middle; 属性加入 img 中便可

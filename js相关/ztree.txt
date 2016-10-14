@@ -1,0 +1,46 @@
+定义一个按钮根据输入的内容一个个查询到对应的节点
+
+
+
+
+
+treeLocate(treeId,'name',value)
+
+
+
+
+var treeLocateCache = {};
+
+function treeLocate(treeId,key,value){
+	if(treeId){
+		var tree = $.fn.zTree.getZTreeObj(treeId);
+		if(tree){
+			if(!treeLocateCache[treeId]){
+				treeLocateCache[treeId] = {};
+			}
+			if(key && value){
+				var idx = 0;
+				if(treeLocateCache[treeId].key==key && treeLocateCache[treeId].value==value){
+					idx = treeLocateCache[treeId].index || 0;
+				}else{
+					treeLocateCache[treeId].index = 0;
+					treeLocateCache[treeId].key = key;
+					treeLocateCache[treeId].value = value;
+				}
+				var nodes = tree.getNodesByParamFuzzy(key, value, null);
+				if(nodes.length > 0){
+					if(idx >= nodes.length){
+						idx = 0;
+					}
+					if(idx < nodes.length){
+						tree.expandNode(nodes[idx], true, false, true);
+						tree.selectNode(nodes[idx]);
+						treeLocateCache[treeId].index = ++idx;
+					}
+				}
+			}else{
+				treeLocateCache[treeId] = {};
+			}
+		}
+	}
+}

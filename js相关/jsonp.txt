@@ -1,0 +1,17 @@
+<script src="jquery-2.1.1.min.js"></script>
+<script>
+$.ajax({
+  url:'http://suggestion.baidu.com/su',
+  dataType:'jsonp',
+  jsonp:'cb',
+  data:{
+    wd:'¾°¹ÛÎÄ»¯',
+    json:1
+  },
+  success:function(data){
+    $.each(data.s,function(index,item){
+	  alert(item);
+    });
+  }
+});
+</script>

@@ -1,0 +1,14 @@
+function downloadJSAtOnload() {
+        document.body.style.display="inline";
+         alert("4");
+         }
+         if (window.addEventListener) {
+             alert("1");
+            window.addEventListener("load", downloadJSAtOnload, false);
+         } else if (window.attachEvent) {
+             alert("2");
+            window.attachEvent("onload", downloadJSAtOnload);
+         } else {
+             alert("3");
+             window.onload = downloadJSAtOnload;
+         }

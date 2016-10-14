@@ -1,0 +1,163 @@
+操作服务器：221.4.179.37/root/hzXINYANGSUN^^**/22端口  设备管理系统/221.4.179.28/root/hzXINYANGSUN^^**/22端口
+            192.168.1.210/root/yxcdev123/22
+
+    
+ export JAVA_HOME=/usr/java/jdk1.6.0_33
+
+1，记得关闭防火墙
+
+iptables方式
+查看防火墙状态：
+/etc/init.d/iptables status
+关闭防火墙：
+/etc/init.d/iptables stop
+重启iptables:
+/etc/init.d/iptables restart
+
+关闭：
+chkconfig iptables off
+开启
+chkconfig iptables on
+
+
+yum 安装JDK：
+首先，我们来看看yum库是否有java安装包
+yum -y list java*
+
+yum -y install  java-1.6.0-openjdk*
+
+
+mv /usr/eview/apache-tomcat-6.0.14/webapps/geoserver /usr/eview/geotomcat/webapps/
+
+rm -rf /usr/eview/geotomcat/webapps/geoserver /usr/eview/geotomcat/webapps/
+
+
+2，安装JDK+记得在pro文件里面+环境变量
+
+3，
+查看有没有安装过：
+          yum list installed mysql*
+          rpm -qa | grep mysql*
+ 
+查看有没有安装包：
+          yum list mysql*
+ 
+安装mysql客户端：
+          yum install mysql
+ 
+安装mysql 服务器端：
+          yum install mysql-server
+ 
+          yum install mysql-devel
+  www.2cto.com 
+
+
+4、启动&&停止
+ 
+数据库字符集设置
+          mysql配置文件/etc/my.cnf中加入default-character-set=utf8
+ 
+启动mysql服务：k
+          service mysqld start或者/etc/init.d/mysqld start
+开机启动：
+          chkconfig -add mysqld，查看开机启动设置是否成功chkconfig --list | grep mysql*
+ 
+          mysqld             0:关闭    1:关闭    2:启用    3:启用    4:启用    5:启用    6:关闭
+停止：
+          service mysqld stop
+5、登录
+ 
+
+6，
+linux 卸载mysql 
+yum remove mysql
+
+7，
+新增5050端口
+iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
+iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT
+把这个保存下！
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'testf'@'localhost' IDENTIFIED BY 'testf' WITH GRANT OPTION;
+
+8，linux 64位mysql安装error信息解决
+[ERROR] Fatal error: Can't open and lock privilege tables: Table 'mysql.host' doesn't exist
+
+运行这个命令：mysql_install_db之后start可以解决
+
+
+9，装完mysql数据库记得处理大小写的问题
+
+
+10,linux 导入.sql文件
+source /usr/eview/tracker.sql --default-character-set=utf8
+
+11,linux 分盘命令；
+http://blog.csdn.net/andy_yf/article/details/7831482
+
+12.
+ulimit -u   修改
+，但是这个参数需要修改/etc/security/limits.d/90-nproc.conf。
+
+13.
+ulimit -n 修改
+/etc/security/limits.conf
+
+* soft nofile 41000
+* hard nofile 41000
+
+GRANT ALL ON gpsmap.* TO cong@localhost IDENTIFIED BY '29749716';
+
+查看最大连接数
+show variables;
+
+winsdows 安装极品
+
+安装tomcat
+cd /usr/eview 
+wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.63/bin/apache-tomcat-7.0.63.tar.gz
+tar zxvf apache-tomcat-7.0.63.tar.gz
+
+
+
+http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.63/bin/apache-tomcat-7.0.63.tar.gz
+
+安装jdk
+yum -y list java*
+java -version
+
+UPDATE user set password=password('123456') WHERE user='root';
+
+
+mysql -uroot -p123456
+mysql登录报错解决：
+http://alsww.blog.51cto.com/2001924/1121676
+
+
+修改时区： 
+找到相应的时区文件 /usr/share/zoneinfo/Asia/Shanghai替换当前的/etc/localtime。 
+修改/etc/sysconfig/clock文件的内容为： 
+ZONE=”Asia/Shanghai” 
+UTC=false 
+ARC=false 
+
+
+个人：解压tar.gz文件  
+   tar xfv  文件名  
+
+rpm 解压安装
+rpm -ivh  jdk-7u79-linux-i586.rpm
+
+
+
+export JAVA_HOME=/usr/java/jdk1.7.0_79
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export CATALINA_HOME=/usr/yxcfan/apache-tomcat-7.0.63
+export CATALINA_BASE=/usr/yxcfan/apache-tomcat-7.0.63
+
+rm -rf 强制删除文件命令
+
+
+ mysql -u root -pxinyang906  yxc_system_management < /usr/yxcfan/equip.sql;

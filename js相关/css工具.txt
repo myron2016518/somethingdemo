@@ -1,0 +1,9 @@
+============================
+css-purge    将多个css 文件先拷贝到一个，然后移除其中重复样式命令 
+ npm  的插件
+
+https://www.npmjs.com/package/css-purge
+
+npm install css-purge -g			按照
+css-purge --help				帮助文档
+css-purge -i style.css -o style_purged.css	

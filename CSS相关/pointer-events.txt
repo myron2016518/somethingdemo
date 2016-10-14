@@ -1,0 +1,5 @@
+pointer-events:none的作用不只是禁用链接hover，打开链接等效果，
+是真实意义上的将onlick事件去掉了。如果您反应迅速，创新意识强的话，
+是不是想到可以利用pointer-events:none实现按钮、选项卡等的禁用效果等。
+
+pointer-events:none + disabled = 完美禁用。

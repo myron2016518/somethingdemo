@@ -1,0 +1,244 @@
+https://segmentfault.com/a/1190000004512967
+
+
+
+
+iframe获取父页面信息
+
+》》》
+父页面代码
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>崔涣 iframe postmessage 父页面</title>
+    <script type="text/JavaScript">
+        function sendIt() {
+            // 通过 postMessage 向子窗口发送数据
+            document.getElementById("otherPage").contentWindow
+                    .postMessage(
+                    document.getElementById("message").value,
+                    "http://cuihuan.net:8003"
+            );
+        }
+    </script>
+</head>
+<body>
+<!-- 通过 iframe 嵌入子页面 -->
+<iframe src="http://cuihuan.net:8003/test.html" id="otherPage"></iframe>
+<br/>
+<br/>
+<input type="text" id="message"/>
+<input type="button" value="Send to child.com" onclick="sendIt()"/>
+</body>
+</html>
+
+
+
+子页面代码
+
+
+<html> 
+ <head> 
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+ <title>崔涣测试子页面信息</title> 
+ <script type="text/JavaScript"> 
+     //event 参数中有 data 属性，就是父窗口发送过来的数据
+     window.addEventListener("message", function( event ) { 
+         // 把父窗口发送过来的数据显示在子窗口中
+       document.getElementById("content").innerHTML+=event.data+"<br/>"; 
+     }, false ); 
+
+ </script> 
+ </head> 
+ <body> 
+     this is the 8003 port for cuixiaozhuai 
+     <div id="content"></div> 
+ </body> 
+ </html>
+
+
+============================================
+
+
+iframe传递信息给父页面
+
+》》》》》》》》
+父页面代码
+<html>
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <title>崔涣测试父页面</title>
+ <script type="text/JavaScript">
+     //event 参数中有 data 属性，就是父窗口发送过来的数据
+     window.addEventListener("message", function( event ) {
+         // 把父窗口发送过来的数据显示在子窗口中
+       document.getElementById("content").innerHTML+=event.data+"<br/>";
+     }, false );
+
+ </script>
+ </head>
+ <body>
+     <iframe src="http://cuihuan.net:8003/iframeSon.html" id="otherPage"></iframe>
+     <br/>
+     this is the 1015 port for cuixiaozhuai。
+     <div id="content"></div>
+ </body>
+ </html>
+
+
+子页面代码
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>崔小涣iframe postmessage 测试页面</title>
+    <script type="text/JavaScript">
+        function sendIt() {
+            // 子页面给父页面传输信息 
+            parent.postMessage(
+                document.getElementById("message").value,
+                "http://cuihuan.net:1015"
+            );
+        }
+    </script>
+</head>
+<body>
+<br/>
+this is the  port for cuixiaozhuai
+<input type="text" id="message"/>
+<input type="button" value="Send to child.com" onclick="sendIt()"/>
+</body>
+</html>
+
+
+==============
+
+postmessage简单分析和安全问题
+》》》》》》
+ window.addEventListener('message', function (event) {
+        
+        //校验函数是否合法
+        var checkMessage = function () {
+            // 只获取需要的域，并非所有都可以跨域
+            if (event.origin != "need domain") {
+                return false;
+            }
+
+            
+            var message = event.data;
+            // 传输数据类型校验
+            if (typeof(message) !== 'object') {
+                return false;
+            }
+
+            // message 的rule中包含xxx则为xxx需要字段。
+            return message.rule === "xxx";
+        };
+
+        if (checkMessage()) {
+            // 通过校验进行相关操作
+            addDetailFunc(event);
+        }
+    });
+
+
+
+
+
+
+======================================
+非凡之星后台
+-----------------------------------------
+
+获取
+
+//event 参数中有 data 属性，就是父窗口发送过来的数据
+    window.addEventListener("message", function( event ) {
+        // 把父窗口发送过来的数据显示在子窗口中
+    	//alert(event.data);
+    	var getCurIframe=event.data;
+    	var curIframeObj = getCurIframe.split(",");
+    	if(curIframeObj[1]=='hidden'){
+    		$('#pagetab_contentholder').showLoader();
+    		 document.getElementById(curIframeObj[0]).style.visibility="hidden";
+    	}else{
+    		setTimeout(function () {
+        		$.fn.removeLoader();
+                document.getElementById(curIframeObj[0]).style.visibility="visible";
+        	}, 1000);
+    	}
+    	
+    		
+    }, false );
+	
+-----------------------------------------------
+请求
+					// console.log(e.target)
+					var getCurIframeName=window.name;
+					var curIframeObj = getCurIframeName.split(",");
+					var curIframeID = curIframeObj[0];
+					//alert("5	:" + getCurIframeName);
+					if ($('#'+curIframeID).length) {
+						$("#"+curIframeID).css("visibility", "hidden");
+						
+					} else {
+						var getCurUrl = window.location.host;
+						if (curIframeObj[1].indexOf(getCurUrl) == -1) {
+							parent.postMessage(curIframeID+',hidden', curIframeObj[1]);
+						} else {
+							$('#' + curIframeID, parent.document).css(
+									"visibility", "hidden");
+							if($('.currighttag', parent.document).length){
+								$('.currighttag', parent.document).css("display","inline");
+							}else{
+								var righttag='<div class="currighttag" style="display: inline;">正在加载...</div>';
+								$('body',parent.document).append(righttag);
+							}
+						}
+					}
+
+-------------------------------------------------
+页面加载
+
+window.onload=function(){
+	
+	setTimeout(function () {
+		var wiObj = window.name;
+		var curIframeObj = wiObj.split(",");
+		var curIframeID = curIframeObj[0];
+		var getCurUrl = window.location.host;
+		if (curIframeObj[1].indexOf(getCurUrl) == -1) {
+			// alert("6 :"+curIframeID);
+			parent.postMessage(curIframeID+',show', curIframeObj[1]);
+		} else {
+			
+			$('.currighttag', parent.document).css("display","none");
+			$('#' + curIframeID, parent.document).css("visibility","visible");
+			//alert(curIframeObj[1]+"||and||"+getCurUrl);
+		}
+	},0);
+	
+	
+}	
+
+-------------------------------------
+这是个ifrmae 设置动态值 name ,方便动态获取父类动态的域名
+var curIframes=document.getElementsByTagName("iframe");
+		
+		if(curIframes.length > 0){
+			for(var i=0;curIframes.length>i;i++){
+				var odlname=curIframes[i].name;
+				
+				if((odlname==null || odlname=="" || typeof(odlname)=="undefined")){
+					var crtif=curIframes[i].id;
+					odlname = (crtif==null || crtif=="" || typeof(crtif)=="undefined")? new Date().getTime() : crtif;
+					
+					curIframes[i].id = odlname;
+				}
+				curIframes[i].name=odlname+','+window.location.href;
+				curIframes[i].contentWindow.name = odlname +','+window.location.href;
+			}
+		}else{
+		}
+
+--------------------------------------------------

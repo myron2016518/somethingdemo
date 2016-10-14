@@ -1,0 +1,36 @@
+
+====================================================================================================================================
+
+输入框被输入法推上去的问题：
+
+var focusInput = null;
+var blurInput = null;
+$('input').focus(function(){
+	$('body').css('margin-top','0px');
+	blurInput = focusInput = $(this);
+ });
+$(window).resize(function(){
+	if(focusInput)
+	{
+		var winHeight = $(window).height();
+		var offsetTop = focusInput[0].getBoundingClientRect().top;
+		var offsetHeight = focusInput.height();
+		var cha = winHeight - (offsetTop+offsetHeight);
+		if(cha<0)
+		{
+		  $('body').css('margin-top',cha+'px');
+		}
+		focusInput = null;
+	}
+	else
+	{
+		blurInput&&blurInput.blur();
+		$('body').css('margin-top','0px');
+	}
+	
+});
+
+
+
+
+====================================================================================================================================

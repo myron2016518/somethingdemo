@@ -1,0 +1,3 @@
+var ulHtml = "<ul id=" + ulId + "  class='menu-submenu menu-submenu-vertical' ></ul>";
+
+这两个对于CSS 文件中的 menu-submenu,menu-submenu-vertical

@@ -1,0 +1,6 @@
+1.获取当前选择的父类元素
+$(".curholder", parent.document)
+
+
+2.关闭弹出框
+$(parent.document.getElementsByClassName('ui-dialog-close')).click();

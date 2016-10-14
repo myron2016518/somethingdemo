@@ -1,0 +1,190 @@
+javascript setAttribute, getAttribute 在不同浏览器上的不同表现
+
+测试环境（客户端浏览器 ） 
+IE6，IE7， IE8兼容模式， IE8 
+Firefox 3.6.8, google chrome 5.0.375.125 
+
+先来说明两个函数的标准定义。 
+elementNode.setAttribute(name,value) 
+name 必需。规定要设置的属性名。 
+value 必需。规定要设置的属性值。 
+该方法把指定的属性设置为指定的值。如果不存在具有指定名称的属性，该方法将创建一个新属性。 
+
+elementNode.getAttribute(name) 
+name 必需。规定从中取得属性值的属性。 
+
+一、setAttribute的问题 
+elementNode为<tr>...</tr> 
+
+希望对其增加一个单击行的事件处理函数， 
+写法1： 
+table1row1.setAttribute("onclick", "selectrow1(this)"); 
+IE8, Firefox, google chrome 能正确触发click 事件 
+IE6，IE7则不能触发click 事件。 
+写法2： 
+table2row1.onclick = function() { selectrow2(this) }; 
+所有测试浏览器均能触发click 事件 
+
+故为了兼容在不同的IE中，我们可以统一使用如下语句。 
+table2row1.onclick = function() { selectrow2(this) }; 
+
+
+二、getAttribute的问题 
+elementNode为 <tr>...</tr> 
+先用setAttribute设置属性 
+table1row1.setAttribute("level", 1); 
+再用getAttribute来获取标签的属性值 
+var level = table1row1.getAttribute("level"); 
+alert("table1row1 level:" + level + "\r\ntypeof(level) = " + (typeof (level)).toString()); 
+
+var level = table1row1.getAttribute("level"); 
+if (level === undefined || level == null) { 
+level = "0"; 
+} 
+level = level.toString(); 
+if (level.trim() == "") { 
+level = "0"; 
+} 
+
+
+
+
+
+
+
+
+
+
+
+或者使用ajax方法 
+$addHandler 是Sys.UI.DomEvent.addHandler 的快捷方式，它的语法为： 
+$addHandler(element, eventName, handler); 
+element 公开事件的 DOM 元素。 
+eventName 事件的名称。 
+handler 要添加的事件处理程序。 
+前面的语句可以写成这样： 
+$addHandler(row,"click", function() { selectrow(this) }); 
+下面为测试的html代码 
+复制代码 代码如下:
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<title>Test</title> 
+<script type="text/javascript" language="javascript"> 
+function pageLoad() { 
+var table1row1 = document.getElementById("table1row1"); 
+table1row1.setAttribute("level", 1); 
+table1row1.setAttribute("onclick", "selectrow1(this)"); 
+var table1row2 = document.getElementById("table1row2"); 
+table1row2.setAttribute("level", 2); 
+table1row2.setAttribute("onclick", "selectrow1(this)"); 
+var table2row1 = document.getElementById("table2row1"); 
+table2row1.setAttribute("level", 3); 
+table2row1.onclick = function() { selectrow2(this) }; 
+var table2row2 = document.getElementById("table2row2"); 
+table2row2.setAttribute("level", 4); 
+table2row2.onclick = function() { selectrow2(this) }; 
+} 
+var CurrentSelectRow1 = null; 
+function selectrow1(newSelectRow) { 
+if (CurrentSelectRow1 != null) { 
+CurrentSelectRow1.style.backgroundColor = '#ffffff'; 
+} 
+newSelectRow.style.backgroundColor = 'PeachPuff'; 
+CurrentSelectRow1 = newSelectRow; 
+} 
+var CurrentSelectRow2 = null; 
+function selectrow2(newSelectRow) { 
+if (CurrentSelectRow2 != null) { 
+CurrentSelectRow2.style.backgroundColor = '#ffffff'; 
+} 
+newSelectRow.style.backgroundColor = '#ff0000'; 
+CurrentSelectRow2 = newSelectRow; 
+} 
+function button1_click() { 
+var table1row1 = document.getElementById("table1row1"); 
+var level = table1row1.getAttribute("level"); 
+var desc1 = "table1row1 level:" + level + "\r\ntypeof(level) = " + (typeof (level)).toString(); 
+alert(desc1); 
+var onclick1 = table1row1.getAttribute("onclick"); 
+var desc2 = "table1row1 onclick:" + onclick1.toString() + "\r\ntypeof(onclick) = " + (typeof (onclick1)).toString(); 
+alert(desc2); 
+} 
+function button2_click() { 
+var table2row1 = document.getElementById("table2row1"); 
+var level = table2row1.getAttribute("level"); 
+var desc1 = "table2row1 level:" + level + "\r\ntypeof(level) = " + (typeof (level)).toString(); 
+alert(desc1); 
+var onclick1 = table2row1.onclick; 
+var desc2 = "table2row1 onclick:" + onclick1.toString() + "\r\ntypeof(onclick) = " + (typeof (onclick1)).toString(); 
+alert(desc2); 
+} 
+</script> 
+</head> 
+<body onload="pageLoad();"> 
+<div style="width: 600px"> 
+<span>table1</span> 
+<table cellspacing="0" rules="all" border="1" id="table1" style="border-width: 1px; 
+border-style: Solid; width: 100%; border-collapse: collapse;"> 
+<tr id="table1row0"> 
+<td align="center" style="width: 50%;"> 
+No. 
+</td> 
+<td align="center" style="width: 50%;"> 
+Item 
+</td> 
+</tr> 
+<tr id="table1row1"> 
+<td align="center" style="width: 50%;"> 
+1 
+</td> 
+<td align="left" style="width: 50%;"> 
+2C.40E80.041 
+</td> 
+</tr> 
+<tr id="table1row2"> 
+<td align="center" style="width: 50%;"> 
+2 
+</td> 
+<td align="left" style="width: 50%;"> 
+4L.013Y2.003 
+</td> 
+</tr> 
+</table> 
+<input type="button" id="button1" onclick="return button1_click();" /> 
+</div> 
+<div style="width: 600px"> 
+<br /> 
+<span>table2</span> 
+<table cellspacing="0" rules="all" border="1" id="table2" style="border-width: 1px; 
+border-style: Solid; width: 100%; border-collapse: collapse;"> 
+<tr id="table2row0"> 
+<td align="center" style="width: 50%;"> 
+No. 
+</td> 
+<td align="center" style="width: 50%;"> 
+Item 
+</td> 
+</tr> 
+<tr id="table2row1"> 
+<td align="center" style="width: 50%;"> 
+1 
+</td> 
+<td align="left" style="width: 50%;"> 
+4G.0QE18.001 
+</td> 
+</tr> 
+<tr id="table2row2"> 
+<td align="center" style="width: 50%;"> 
+2 
+</td> 
+<td align="left" style="width: 50%;"> 
+2K.61209.208 
+</td> 
+</tr> 
+</table> 
+<input type="button" id="button2" onclick="return button2_click();" /> 
+</div> 
+</body> 
+</html> 

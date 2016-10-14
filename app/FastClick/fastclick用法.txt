@@ -1,0 +1,10 @@
+用户移除h5 页面 click  与移动端 tag 事件 之间300秒延迟效果
+
+初始化
+
+：
+
+$(function() {
+				
+				FastClick.attach(document.body);
+})

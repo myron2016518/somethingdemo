@@ -1,0 +1,101 @@
+==========================================
+JS:
+
+
+$(function() {
+
+	var $twoButtonSroll = document.getElementsByClassName('twoButton')
+				
+				$twoButtonSroll[0].onclick = function() {
+					var timer = setInterval(function() {
+
+						window.scrollBy(0, -50);
+
+						if(document.body.scrollTop == 0) {
+
+							clearInterval(timer);
+
+						};
+
+					}, 2);
+
+				}
+				window.onscroll = function() {
+
+					$twoButtonSroll[0].style.visibility = (document.body.scrollTop >= 300) ? "visible" : "hidden";
+
+				}
+})
+
+
+==============================================================================================
+
+µÚ¶þ°æ±¾£¬¼æÈÝdocument.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+
+$(function() {
+
+	var $twoButtonSroll = document.getElementsByClassName('twoButton');
+				
+				$twoButtonSroll[0].onclick = function() {
+					$('html,body').animate({scrollTop: '0px'}, 800);
+
+				}
+	window.onscroll = function() {
+		
+		var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		$twoButtonSroll[0].style.visibility = (scrollTop >= 300) ? "visible" : "hidden";
+	
+
+	}
+})
+
+==============================================================================================
+
+html:
+
+<ul class="actionButton">
+	<li class="twoButton"></li>
+</ul>
+
+
+============================================================================================
+CSS:
+
+
+.actionButton{    
+	position: fixed;
+    z-index: 99;
+    right: 19px;
+    bottom: 8%;
+    }
+.actionButton li{
+	width: 30px;
+	height: 30px;
+	
+}
+.actionButton .oneButton{
+	margin-bottom: 20px;
+	background-image: url(../img/icon_22x.png);
+	background-repeat:no-repeat;
+	background-size:30px;
+}
+
+.actionButton .twoButton{
+	visibility: hidden;
+	background-image: url(../img/icon_33x.png);
+	background-repeat:no-repeat;
+	background-size:30px;
+	filter:alpha(opacity=50);
+ 	-moz-opacity:0.5;
+ 	-khtml-opacity: 0.5;
+ 	opacity: 0.5; 
+}
+
+
+
+============================================================================================
+
+
+
+
+
